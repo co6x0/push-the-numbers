@@ -27,18 +27,14 @@ const timerId = (totalTime, nowTime) => {
   if (remainMSec <= 0) {
     clearInterval(timerId)
     label = '00:00'
+    timer.textContent = label
   }
-}
-
-let hogehoge
-function test() {
-  hogehoge = setInterval(console.log('testlog'), 100)
 }
 
 startBtn.addEventListener('click', () => {
   const totalTime = 10000
   const nowTime = Date.now()
-  setInterval(timerId(totalTime, nowTime), 25)
+  setInterval(timerId, 25, totalTime, nowTime)
 })
 
 stopBtn.addEventListener('click', () => {
@@ -53,40 +49,33 @@ stopBtn.addEventListener('click', () => {
 
 //setNumbers関数の定義
 let buttons = document.querySelectorAll('#js-game button')
+let numbers = []
 
-function setNumbers() {
-  var numbers = []
-  currentNum = 1
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].disabled = false
-  }
+const setNumbers = {
+  number: () => {
+    currentNum = 1
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].disabled = false
+    }
 
-  while (numbers.length < buttons.length) {
-    let num = Math.floor(Math.random() * 10)
-    if (numbers.indexOf(num) === -1 && num !== 0) {
-      numbers.push(num)
+    while (numbers.length < buttons.length) {
+      let num = Math.floor(Math.random() * 10)
 
-      if (num === buttons.length) {
-        var lastBtn = buttons[numbers.length - 1]
+      if (numbers.indexOf(num) === -1 && num !== 0) {
+        numbers.push(num)
       }
     }
-  }
 
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].textContent = numbers[i]
-  }
-
-  function hogehoge() {
-    if (lastBtn.hasAttribute('disabled')) {
-      alert('CLEAR!')
+    for (let i = 0; i < buttons.length; i++) {
+      buttons[i].textContent = numbers[i]
     }
+  },
+  last: () => {
+    console.log(numbers)
   }
-
-  lastBtn.addEventListener('click', hogehoge)
-  startBtn.addEventListener('click', () => {
-    lastBtn.removeEventListener('click', hogehoge)
-  })
 }
+
+startBtn.addEventListener('click', setNumbers.number)
 
 //buttonを押した時の挙動の設定
 let currentNum = 1
@@ -100,6 +89,18 @@ for (let i = 0; i < buttons.length; i++) {
   })
 }
 
+lastBtn.addEventListener(
+  'click',
+  () => {
+    if (lastBtn.hasAttribute('disabled')) {
+      alert('CLEAR!')
+    }
+  },
+  {
+    once: true
+  }
+)
+
 //game start
-startBtn.addEventListener('click', setNumbers)
+// startBtn.addEventListener('click', setNumbers)
 //startBtn.addEventListener('click', timerCount)
