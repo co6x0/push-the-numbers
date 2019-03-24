@@ -35,7 +35,6 @@ function timerCount() {
 
 //setNumbers関数の定義
 let buttons = document.querySelectorAll('#js-game button')
-let startBtn = document.getElementById('js-start')
 
 function setNumbers() {
   let numbers = []
@@ -59,10 +58,15 @@ function setNumbers() {
     buttons[i].textContent = numbers[i]
   }
 
-  lastBtn.addEventListener('click', () => {
+  function hogehoge() {
     if (lastBtn.hasAttribute('disabled')) {
       alert('CLEAR!')
     }
+  }
+
+  lastBtn.addEventListener('click', hogehoge)
+  startBtn.addEventListener('click', () => {
+    lastBtn.removeEventListener('click', hogehoge)
   })
 }
 
@@ -78,5 +82,7 @@ for (let i = 0; i < buttons.length; i++) {
   })
 }
 
+//game start
+let startBtn = document.getElementById('js-start')
 startBtn.addEventListener('click', setNumbers)
 startBtn.addEventListener('click', timerCount)
