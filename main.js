@@ -7,7 +7,7 @@ let numbers = []
 //timerCount関数の定義
 timer.textContent = '10:00'
 
-const timerId = (totalTime, nowTime) => {
+const timerId = (clear, totalTime, nowTime) => {
   const currentTime = Date.now()
   const diff = currentTime - nowTime
 
@@ -26,7 +26,7 @@ const timerId = (totalTime, nowTime) => {
   let label = '0' + remainSec + ':' + cutMSec
   timer.textContent = label
 
-  if (remainMSec <= 0) {
+  if (remainMSec <= 0 || clear === true) {
     clearInterval(timerId)
     label = '00:00'
     timer.textContent = label
@@ -70,6 +70,12 @@ for (let i = 0; i < buttons.length; i++) {
 }
 
 startBtn.addEventListener('click', () => {
+  const totalTime = 10000
+  const nowTime = Date.now()
+  setInterval(timerId, 25, false, totalTime, nowTime)
+})
+
+startBtn.addEventListener('click', () => {
   let lastBtn = buttons[numbers.indexOf(numbers.length)]
   lastBtn.addEventListener(
     'click',
@@ -82,10 +88,4 @@ startBtn.addEventListener('click', () => {
       once: true
     }
   )
-})
-
-startBtn.addEventListener('click', () => {
-  const totalTime = 10000
-  const nowTime = Date.now()
-  setInterval(timerId, 25, totalTime, nowTime)
 })
