@@ -45,6 +45,23 @@
   border: none;
 }
 
+.stop-btn {
+  width: 100%;
+  margin: 0 auto;
+  display: block;
+  margin-top: 8px;
+  text-transform: uppercase;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  line-height: 1;
+  padding: 16px;
+  background-color: #666;
+  color: white;
+  border-radius: 40px;
+  border: none;
+}
+
 .timer-count {
   color: #ccc;
 }
