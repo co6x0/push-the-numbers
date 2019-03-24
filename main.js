@@ -1,6 +1,8 @@
 let startBtn = document.getElementById('js-start')
 let stopBtn = document.getElementById('js-stop')
 let timer = document.getElementById('js-timer')
+let buttons = document.querySelectorAll('#js-game button')
+let numbers = []
 
 //timerCount関数の定義
 timer.textContent = '10:00'
@@ -31,53 +33,31 @@ const timerId = (totalTime, nowTime) => {
   }
 }
 
-startBtn.addEventListener('click', () => {
-  const totalTime = 10000
-  const nowTime = Date.now()
-  setInterval(timerId, 25, totalTime, nowTime)
-})
-
-stopBtn.addEventListener('click', () => {
-  if (stopBtn.textContent === 'Restart') {
-    setInterval(timerCount.timerId())
-    stopBtn.textContent = 'Stop'
-  } else {
-    clearInterval(timerCount.timerId())
-    stopBtn.textContent = 'Restart'
-  }
-})
-
 //setNumbers関数の定義
-let buttons = document.querySelectorAll('#js-game button')
-let numbers = []
+const setNumbers = () => {
+  currentNum = 1
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].disabled = false
+  }
 
-const setNumbers = {
-  number: () => {
-    currentNum = 1
-    for (let i = 0; i < buttons.length; i++) {
-      buttons[i].disabled = false
+  numbers.length = 0
+  numbers = []
+  while (numbers.length < buttons.length) {
+    let num = Math.floor(Math.random() * 10)
+
+    if (numbers.indexOf(num) === -1 && num !== 0) {
+      numbers.push(num)
     }
+  }
 
-    while (numbers.length < buttons.length) {
-      let num = Math.floor(Math.random() * 10)
-
-      if (numbers.indexOf(num) === -1 && num !== 0) {
-        numbers.push(num)
-      }
-    }
-
-    for (let i = 0; i < buttons.length; i++) {
-      buttons[i].textContent = numbers[i]
-    }
-  },
-  last: () => {
-    console.log(numbers)
+  for (let i = 0; i < buttons.length; i++) {
+    buttons[i].textContent = numbers[i]
   }
 }
 
-startBtn.addEventListener('click', setNumbers.number)
+//buttonを押した時の挙動
+startBtn.addEventListener('click', setNumbers)
 
-//buttonを押した時の挙動の設定
 let currentNum = 1
 for (let i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener('click', () => {
@@ -89,18 +69,23 @@ for (let i = 0; i < buttons.length; i++) {
   })
 }
 
-lastBtn.addEventListener(
-  'click',
-  () => {
-    if (lastBtn.hasAttribute('disabled')) {
-      alert('CLEAR!')
+startBtn.addEventListener('click', () => {
+  let lastBtn = buttons[numbers.indexOf(numbers.length)]
+  lastBtn.addEventListener(
+    'click',
+    () => {
+      if (lastBtn.hasAttribute('disabled')) {
+        alert('CLEAR!')
+      }
+    },
+    {
+      once: true
     }
-  },
-  {
-    once: true
-  }
-)
+  )
+})
 
-//game start
-// startBtn.addEventListener('click', setNumbers)
-//startBtn.addEventListener('click', timerCount)
+startBtn.addEventListener('click', () => {
+  const totalTime = 10000
+  const nowTime = Date.now()
+  setInterval(timerId, 25, totalTime, nowTime)
+})
