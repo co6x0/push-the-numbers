@@ -1,9 +1,7 @@
-let buttons = document.querySelectorAll('#js-game button')
-let startBtn = document.getElementById('js-start')
+//timerCount関数の定義
 let timer = document.getElementById('js-timer')
-let currentNum = 1
-
 timer.textContent = '10:00'
+
 function timerCount() {
   const totalTime = 10000
   const nowTime = Date.now()
@@ -35,6 +33,10 @@ function timerCount() {
   }, 25)
 }
 
+//setNumbers関数の定義
+let buttons = document.querySelectorAll('#js-game button')
+let startBtn = document.getElementById('js-start')
+
 function setNumbers() {
   let numbers = []
   currentNum = 1
@@ -46,14 +48,26 @@ function setNumbers() {
     let num = Math.floor(Math.random() * 10)
     if (numbers.indexOf(num) === -1 && num !== 0) {
       numbers.push(num)
+
+      if (num === buttons.length) {
+        var lastBtn = buttons[numbers.length - 1]
+      }
     }
   }
 
   for (let i = 0; i < buttons.length; i++) {
     buttons[i].textContent = numbers[i]
   }
+
+  lastBtn.addEventListener('click', () => {
+    if (lastBtn.hasAttribute('disabled')) {
+      alert('CLEAR!')
+    }
+  })
 }
 
+//buttonを押した時の挙動の設定
+let currentNum = 1
 for (let i = 0; i < buttons.length; i++) {
   buttons[i].addEventListener('click', () => {
     let currentBtn = Number(buttons[i].textContent)
