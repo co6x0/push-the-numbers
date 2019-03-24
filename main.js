@@ -1,5 +1,4 @@
 let startBtn = document.getElementById('js-start')
-let stopBtn = document.getElementById('js-stop')
 let timer = document.getElementById('js-timer')
 let buttons = document.querySelectorAll('#js-game button')
 let numbers = []
@@ -33,59 +32,10 @@ const timerId = (clear, totalTime, nowTime) => {
   }
 }
 
-//setNumbers関数の定義
-const setNumbers = () => {
-  currentNum = 1
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].disabled = false
-  }
-
-  numbers.length = 0
-  numbers = []
-  while (numbers.length < buttons.length) {
-    let num = Math.floor(Math.random() * 10)
-
-    if (numbers.indexOf(num) === -1 && num !== 0) {
-      numbers.push(num)
-    }
-  }
-
-  for (let i = 0; i < buttons.length; i++) {
-    buttons[i].textContent = numbers[i]
-  }
-}
-
 //buttonを押した時の挙動
-startBtn.addEventListener('click', setNumbers)
-
-let currentNum = 1
-for (let i = 0; i < buttons.length; i++) {
-  buttons[i].addEventListener('click', () => {
-    let currentBtn = Number(buttons[i].textContent)
-    if (!buttons[i].hasAttribute('disabled') && currentBtn === currentNum) {
-      buttons[i].disabled = true
-      currentNum++
-    }
-  })
-}
 
 startBtn.addEventListener('click', () => {
   const totalTime = 10000
   const nowTime = Date.now()
   setInterval(timerId, 25, false, totalTime, nowTime)
-})
-
-startBtn.addEventListener('click', () => {
-  let lastBtn = buttons[numbers.indexOf(numbers.length)]
-  lastBtn.addEventListener(
-    'click',
-    () => {
-      if (lastBtn.hasAttribute('disabled')) {
-        alert('CLEAR!')
-      }
-    },
-    {
-      once: true
-    }
-  )
 })
