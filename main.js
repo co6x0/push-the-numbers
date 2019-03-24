@@ -5,48 +5,51 @@ let timer = document.getElementById('js-timer')
 //timerCount関数の定義
 timer.textContent = '10:00'
 
-function timerCount() {
-  const totalTime = 10000
-  const nowTime = Date.now()
+const timerId = (totalTime, nowTime) => {
+  const currentTime = Date.now()
+  const diff = currentTime - nowTime
 
-  function timerId() {
-    const currentTime = Date.now()
-    const diff = currentTime - nowTime
+  const mSec = (totalTime - diff) / 10
+  const remainMSec = Math.floor(mSec)
+  const remainSec = Math.ceil(remainMSec / 100) - 1
 
-    const mSec = (totalTime - diff) / 10
-    const remainMSec = Math.floor(mSec)
-    const remainSec = Math.ceil(remainMSec / 100) - 1
-
-    if (remainMSec.length === 1) {
-      var cutMSec = '0' + remainMSec.toString()
-    } else if (remainSec === 0) {
-      var cutMSec = remainMSec
-    } else {
-      var cutMSec = remainMSec.toString().slice(1)
-    }
-
-    let label = '0' + remainSec + ':' + cutMSec
-
-    if (remainMSec <= 0) {
-      clearInterval(timerId)
-      label = '00:00'
-    }
-
-    timer.textContent = label
+  if (remainMSec.length === 1) {
+    var cutMSec = '0' + remainMSec.toString()
+  } else if (remainSec === 0) {
+    var cutMSec = remainMSec
+  } else {
+    var cutMSec = remainMSec.toString().slice(1)
   }
 
-  setInterval(timerId, 25)
+  let label = '0' + remainSec + ':' + cutMSec
+  timer.textContent = label
 
-  stopBtn.addEventListener('click', () => {
-    if (stopBtn.textContent === 'Restart') {
-      setInterval(timerId)
-      stopBtn.textContent = 'Stop'
-    } else {
-      clearInterval(timerId)
-      stopBtn.textContent = 'Restart'
-    }
-  })
+  if (remainMSec <= 0) {
+    clearInterval(timerId)
+    label = '00:00'
+  }
 }
+
+let hogehoge
+function test() {
+  hogehoge = setInterval(console.log('testlog'), 100)
+}
+
+startBtn.addEventListener('click', () => {
+  const totalTime = 10000
+  const nowTime = Date.now()
+  setInterval(timerId(totalTime, nowTime), 25)
+})
+
+stopBtn.addEventListener('click', () => {
+  if (stopBtn.textContent === 'Restart') {
+    setInterval(timerCount.timerId())
+    stopBtn.textContent = 'Stop'
+  } else {
+    clearInterval(timerCount.timerId())
+    stopBtn.textContent = 'Restart'
+  }
+})
 
 //setNumbers関数の定義
 let buttons = document.querySelectorAll('#js-game button')
@@ -99,4 +102,4 @@ for (let i = 0; i < buttons.length; i++) {
 
 //game start
 startBtn.addEventListener('click', setNumbers)
-startBtn.addEventListener('click', timerCount)
+//startBtn.addEventListener('click', timerCount)
